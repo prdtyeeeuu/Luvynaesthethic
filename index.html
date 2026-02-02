@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luvyn - Smart Lighting Solutions</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#hero" class="logo">
+                    <img src="assets/logobaru.png" alt="Luvyn Logo" style="height: 40px; width: auto;">
+                </a>
+                <div class="nav-menu" id="nav-menu">
+                    <ul class="nav-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+                        <li><a href="payment.html" id="buyNowLink">Buy Now</a></li>
+                        <li><a href="order-view.html">My Orders</a></li>
+                        <li><a href="https://www.instagram.com/__luvynlight/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li>
+                            <div class="auth-buttons">
+                                <a href="login.html" id="loginBtn" class="btn btn-secondary" style="display: inline;">Login</a>
+                                <button id="logoutBtn" class="btn btn-secondary" style="display: none;">Logout</button>
+                                <span id="userDisplay" style="margin-left: 10px; color: var(--primary-color); display: none;"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Transform Your Space with <span style="color: var(--primary-color);">Smart Lighting</span></h1>
+                    <p>Experience the future of home automation with our premium smart bulbs. Control colors, brightness, and schedules from anywhere.</p>
+                    <div class="cta-buttons">
+                        <a href="payment.html" class="btn btn-primary" id="getYoursNowBtn">Get Yours Now <i class="fas fa-bolt"></i></a>
+                        <a href="#features" class="btn btn-secondary">Explore Features <i class="fas fa-chevron-down"></i></a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="assets/luvyn.png" alt="Luvyn Smart Bulb" class="hero-bulb">
+                </div>
+            </div>
+            <div class="light-controls">
+                <div class="light-switch" id="lightSwitch">
+                    <button id="turnOffBtn" class="switch-btn active">OFF</button>
+                    <button id="turnOnBtn" class="switch-btn">ON</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- UFO Zones - Separate from hero content -->
+    <div class="ufo-zones">
+        <div class="ufo-zone ufo-zone-left" id="ufoZoneLeft"></div>
+        <div class="ufo-zone ufo-zone-right" id="ufoZoneRight"></div>
+        <div class="ufo-zone ufo-zone-top" id="ufoZoneTop"></div>
+        <div class="ufo-zone ufo-zone-bottom" id="ufoZoneBottom"></div>
+    </div>
+
+    <!-- Product Preview -->
+    <section id="product" class="product">
+        <div class="container">
+            <h2>Introducing Luvyn Premium</h2>
+            <div class="product-content">
+                <div class="product-video">
+                    <video width="100%" height="auto" controls style="border-radius: 20px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);">
+                        <source src="assets/iklan.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="product-info">
+                    <h2>Luvyn Premium</h2>
+                    <p>Experience the future of lighting with our premium Luvyn. Control brightness, color, and scheduling from anywhere using your smartphone. Perfect for creating the right ambiance for any occasion.</p>
+                    <a href="cart.html" class="btn btn-primary">Order Now <i class="fas fa-shopping-cart"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Features</h2>
+            <div class="features-grid-top">
+                <div class="feature-card">
+                    <div class="icon">🌈</div>
+                    <h3>RGB 16 Juta Warna</h3>
+                    <p>Pilih dari jutaan warna untuk menciptakan suasana yang sempurna.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">📱</div>
+                    <h3>Kontrol Aplikasi</h3>
+                    <p>Kontrol lampu Anda dari mana saja dengan aplikasi intuitif kami.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">💡</div>
+                    <h3>Kecerahan Dapat Disesuaikan</h3>
+                    <p>Redupkan atau tingkatkan kecerahan lampu sesuai kebutuhan Anda.</p>
+                </div>
+            </div>
+            <div class="features-grid-bottom">
+                <div class="feature-card">
+                    <div class="icon">⏱️</div>
+                    <h3>Jadwal & Pengatur Waktu</h3>
+                    <p>Atur jadwal otomatis dan pengatur waktu untuk kenyamanan.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">⚡</div>
+                    <h3>Hemat Energi</h3>
+                    <p>Teknologi LED menghemat energi dan tahan lama.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2>Cara Kerja</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Pasang Lampu</h3>
+                    <p>Pasang lampu Luvyn Anda seperti lampu biasa.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Hubungkan ke BlueTooth</h3>
+                    <p>Ikuti petunjuk aplikasi untuk terhubung ke BlueTooth Anda.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Kontrol Melalui Aplikasi</h3>
+                    <p>Unduh aplikasi kami dan mulai mengontrol lampu Anda.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section id="benefits" class="benefits">
+        <div class="container">
+            <h2>Manfaat</h2>
+            <div class="benefits-grid">
+                <div class="benefit">
+                    <h3>⚡ Efisien Energi</h3>
+                    <p>Hemat listrik hingga 80% dibandingkan lampu biasa.</p>
+                </div>
+                <div class="benefit">
+                    <h3>🎨 Peningkatan Suasana</h3>
+                    <p>Mood ruangan lebih nyaman dengan pencahayaan yang bisa disesuaikan.</p>
+                </div>
+                <div class="benefit">
+                    <h3>📍 Kontrol Jarak Jauh</h3>
+                    <p>Kontrol dari mana saja melalui aplikasi smartphone.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2>Special Offer</h2>
+            <div class="price-card">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="assets/luvyn.png" alt="Luvyn Premium" style="max-width: 150px; height: auto; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                </div>
+                <h3>Luvyn Premium</h3>
+                <div class="price">Rp 55.000</div>
+
+                <ul class="features-list">
+                    <li><i class="fas fa-check-circle"></i> Tanpa biaya langganan</li>
+                    <li><i class="fas fa-check-circle"></i> Aplikasi pendamping gratis</li>
+                    <li><i class="fas fa-check-circle"></i> Garansi 1 tahun</li>
+                    <li><i class="fas fa-check-circle"></i> Proses pemasangan mudah</li>
+                </ul>
+                <a href="payment.html" id="getNowBtn" class="btn btn-primary">Get Yours Now <i class="fas fa-bolt"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Quantity control functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const decreaseBtn = document.getElementById('decreaseQty');
+            const increaseBtn = document.getElementById('increaseQty');
+            const quantityDisplay = document.getElementById('quantity');
+            const subtotalDisplay = document.getElementById('subtotal');
+            const taxDisplay = document.getElementById('tax');
+            const shippingDisplay = document.getElementById('shipping');
+            const totalDisplay = document.getElementById('total');
+
+            let quantity = 1;
+            const pricePerItem = 55000;
+            const taxRate = 1000; // Fixed tax
+            const shippingCost = 8000; // Fixed shipping
+
+            // Update display
+            function updateDisplay() {
+                const subtotal = quantity * pricePerItem;
+                const total = subtotal + taxRate + shippingCost;
+
+                quantityDisplay.textContent = quantity;
+                subtotalDisplay.textContent = `Rp ${subtotal.toLocaleString('id-ID')}`;
+                taxDisplay.textContent = `Rp ${taxRate.toLocaleString('id-ID')}`;
+                shippingDisplay.textContent = `Rp ${shippingCost.toLocaleString('id-ID')}`;
+                totalDisplay.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+            }
+
+            // Decrease quantity
+            decreaseBtn.addEventListener('click', function() {
+                if (quantity > 1) {
+                    quantity--;
+                    updateDisplay();
+                }
+            });
+
+            // Increase quantity
+            increaseBtn.addEventListener('click', function() {
+                quantity++;
+                updateDisplay();
+            });
+
+            // Store quantity in localStorage when clicking "Get Yours Now" button
+            document.getElementById('getNowBtn').addEventListener('click', function() {
+                localStorage.setItem('cartQuantity', quantity);
+                localStorage.setItem('cartTotal', quantity * pricePerItem + taxRate + shippingCost);
+            });
+
+            // Also handle the other "Get Yours Now" button
+            document.getElementById('getYoursNowBtn').addEventListener('click', function() {
+                localStorage.setItem('cartQuantity', quantity);
+                localStorage.setItem('cartTotal', quantity * pricePerItem + taxRate + shippingCost);
+            });
+
+            // Initialize display
+            updateDisplay();
+        });
+
+        // Check if user is logged in on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const userDisplay = document.getElementById('userDisplay');
+
+            if (isLoggedIn === 'true') {
+                // User is logged in
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+
+                // Get user info and display
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser) {
+                    userDisplay.textContent = currentUser.name || 'User';
+                    userDisplay.style.display = 'inline';
+                }
+            } else {
+                // User is not logged in
+                loginBtn.style.display = 'inline-block';
+                logoutBtn.style.display = 'none';
+                userDisplay.style.display = 'none';
+            }
+
+            // Handle logout
+            logoutBtn?.addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    // Clear stored user data
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('currentUser');
+
+                    // Update UI
+                    loginBtn.style.display = 'inline-block';
+                    logoutBtn.style.display = 'none';
+                    userDisplay.style.display = 'none';
+
+                    // Reload page to update UI
+                    window.location.reload();
+                }
+            });
+        });
+    </script>
+
+
+    <!-- Footer -->
+    <footer id="footer" class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="assets/logobaru.png" alt="Luvyn Logo" style="height: 50px; width: auto;">
+            </div>
+            <p>Transform your space with our innovative smart lighting solutions</p>
+
+
+
+            <div class="contact-info">
+                <p>Contact: info@luvyn.com</p>
+                <p>Phone: +62 815 4892 7155</p>
+            </div>
+
+            <div class="social-links" style="margin: 20px 0;">
+                <a href="https://www.instagram.com/__luvynlight/" class="social-icon" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; font-size: 1.5rem; transition: all 0.3s ease; text-decoration: none; color: var(--primary-color); margin: 0 10px;">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Luvyn. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-box">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <form class="login-form" id="loginForm">
+                <h2>Login to Access Products</h2>
+
+                <div class="form-group">
+                    <label for="username">Username or Email</label>
+                    <input type="text" id="username" class="form-control" placeholder="Enter your username or email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Check if user is trying to access restricted page
+        document.addEventListener('DOMContentLoaded', () => {
+            // If user clicks on "Buy Now" or "Get Yours Now" buttons
+            document.querySelectorAll('#buyNowLink, #getYoursNowBtn, #getNowBtn, a[href*="payment"], a[href*="cart"], a[href*="product"]').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+                    if (isLoggedIn !== 'true') {
+                        e.preventDefault();
+
+                        // Store the intended destination
+                        localStorage.setItem('redirectAfterLogin', 'payment.html');
+
+                        // Redirect to login page
+                        window.location.href = 'login.html';
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        // Check if user is logged in on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const userDisplay = document.getElementById('userDisplay');
+
+            if (isLoggedIn === 'true') {
+                // User is logged in
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+
+                // Get user info and display
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser) {
+                    userDisplay.textContent = currentUser.name || 'User';
+                    userDisplay.style.display = 'inline';
+                }
+            } else {
+                // User is not logged in
+                loginBtn.style.display = 'inline-block';
+                logoutBtn.style.display = 'none';
+                userDisplay.style.display = 'none';
+            }
+
+            // Handle logout
+            logoutBtn?.addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    // Clear stored user data
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('currentUser');
+
+                    // Update UI
+                    loginBtn.style.display = 'inline-block';
+                    logoutBtn.style.display = 'none';
+                    userDisplay.style.display = 'none';
+
+                    // Reload page to update UI
+                    window.location.reload();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

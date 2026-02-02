@@ -1,0 +1,1 @@
+Now users must be logged in to access the payment page. If they try to access it without being logged in, they’ll be redirected to the login page with a parameter that tells the system where to redirect them after login. The system maintains the same login credentials as before (user: user/user123, admin: admin/admin123).

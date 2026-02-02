@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRIS Payment - Luvyn Smart Bulb</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .payment-section {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+        }
+
+        .payment-container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(30, 30, 30, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .payment-header {
+            background: linear-gradient(135deg, #b8860b 0%, #daa520 100%);
+            color: #000000;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .payment-header h2 {
+            font-size: 2rem;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .payment-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+            color: #000000;
+        }
+
+        .order-summary {
+            padding: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 1.3rem;
+            padding: 20px 0 10px;
+            margin-top: 15px;
+            border-top: 2px solid #daa520;
+            color: #daa520;
+        }
+
+        .qris-section {
+            padding: 30px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .qris-title {
+            font-size: 1.5rem;
+            color: #daa520;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .qris-code {
+            background: #1a1a1a;
+            border: 5px solid #daa520;
+            border-radius: 15px;
+            padding: 20px;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(218, 165, 32, 0.3);
+            margin: 20px 0;
+        }
+
+        .qris-code img {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+        }
+
+        .qris-instructions {
+            background: rgba(40, 40, 40, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+            border: 1px solid rgba(218, 165, 32, 0.3);
+        }
+
+        .instruction-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .step-number {
+            background: #daa520;
+            color: #000000;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .step-text {
+            flex: 1;
+            color: #ffffff;
+        }
+
+        .amount-display {
+            background: rgba(218, 165, 32, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border: 2px dashed #daa520;
+        }
+
+        .amount-label {
+            font-size: 1rem;
+            color: #cccccc;
+            margin-bottom: 5px;
+        }
+
+        .amount-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #daa520;
+        }
+
+        .timer {
+            font-size: 1.2rem;
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .back-to-home {
+            text-align: center;
+            padding: 20px 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .back-to-home a {
+            color: #daa520;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .payment-status {
+            text-align: center;
+            padding: 20px;
+            color: #2ecc71;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: none;
+        }
+
+        .payment-status.active {
+            display: block;
+        }
+
+        /* Update button styles to match the dark theme */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #daa520;
+            color: #000000;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #b8860b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(218, 165, 32, 0.4);
+        }
+
+        .btn-primary {
+            background: #daa520;
+            color: #000000;
+        }
+
+        .btn-primary:hover {
+            background: #b8860b;
+        }
+
+        /* Update form elements for dark theme */
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(50, 50, 50, 0.8);
+            border: 1px solid rgba(218, 165, 32, 0.5);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #daa520;
+            box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.3);
+        }
+
+        /* Ensure text color remains white in form inputs */
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+            color: #ffffff !important;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        @media (max-width: 600px) {
+            .payment-container {
+                margin: 10px;
+            }
+
+            .payment-header {
+                padding: 20px;
+            }
+
+            .order-summary,
+            .qris-section,
+            .back-to-home {
+                padding: 20px;
+            }
+
+            .qris-code img {
+                width: 180px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="assets/logobaru.png" alt="Luvyn Logo" style="height: 40px; width: auto;">
+                </a>
+                <div class="nav-menu" id="nav-menu">
+                    <ul class="nav-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#pricing">Pricing</a></li>
+                        <li><a href="index.html">Back to Shop</a></li>
+                        <li><a href="order-view.html">My Orders</a></li>
+                        <li><a href="https://www.instagram.com/__luvynlight/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                    </ul>
+                    <div class="auth-buttons">
+                        <button id="loginBtn" class="btn btn-secondary" style="display: none;">Login</button>
+                        <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+                        <span id="userDisplay" style="margin-left: 10px; color: var(--primary-color);">User</span>
+                    </div>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <script>
+        // Check if user is logged in when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+            if (isLoggedIn !== 'true') {
+                // Redirect to login page with redirect parameter
+                localStorage.setItem('redirectAfterLogin', 'payment.html');
+                window.location.href = 'login.html';
+            } else {
+                // Show logout button and hide login button
+                const loginBtn = document.getElementById('loginBtn');
+                const logoutBtn = document.getElementById('logoutBtn');
+
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = 'inline-block';
+
+                // Display user info
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser) {
+                    const userDisplay = document.getElementById('userDisplay');
+                    if (userDisplay) {
+                        userDisplay.textContent = currentUser.name || 'User';
+                    }
+                }
+            }
+        });
+
+        // Handle logout
+        document.getElementById('logoutBtn')?.addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear stored user data
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('currentUser');
+
+                // Redirect to home page after logout
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+
+    <section class="payment-section">
+        <div class="payment-container">
+            <div class="payment-header">
+                <h2>Complete Your Purchase</h2>
+                <p>Fill in your details and select payment method</p>
+            </div>
+
+            <div class="order-summary">
+                <h3 style="color: var(--primary-color); margin-bottom: 20px; text-align: center;">Your Order</h3>
+                <div class="order-item">
+                    <span><i class="fas fa-lightbulb" style="color: var(--primary-color); margin-right: 8px;"></i> Luvyn Premium Smart Bulb</span>
+                    <span id="itemPrice">Rp 55.000</span>
+                </div>
+                <div class="order-item">
+                    <span><i class="fas fa-shopping-bag" style="color: var(--primary-color); margin-right: 8px;"></i> Quantity</span>
+                    <span id="itemQuantity">1</span>
+                </div>
+                <div class="order-item">
+                    <span><i class="fas fa-subway" style="color: var(--primary-color); margin-right: 8px;"></i> Subtotal</span>
+                    <span id="itemSubtotal">Rp 55.000</span>
+                </div>
+                <div class="order-item">
+                    <span><i class="fas fa-shipping-fast" style="color: var(--primary-color); margin-right: 8px;"></i> Shipping</span>
+                    <span id="shippingCost">Rp 8.000</span>
+                </div>
+                <div class="order-item">
+                    <span><i class="fas fa-receipt" style="color: var(--primary-color); margin-right: 8px;"></i> Tax</span>
+                    <span id="taxAmount">Rp 1.000</span>
+                </div>
+                <div class="order-total">
+                    <span><i class="fas fa-calculator" style="color: var(--primary-color); margin-right: 8px;"></i> Total</span>
+                    <span id="orderTotal">Rp 64.000</span>
+                </div>
+            </div>
+
+            <div class="shipping-section" style="padding: 0 30px;">
+                <h3 style="color: var(--primary-color); margin: 20px 0 15px; font-size: 1.3rem;">Shipping Information</h3>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="fullName" style="display: block; margin-bottom: 8px; font-weight: 600; color: #ffffff;">Full Name</label>
+                    <input type="text" id="fullName" class="form-control" placeholder="Enter your full name" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; color: #ffffff;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="email" style="display: block; margin-bottom: 8px; font-weight: 600; color: #ffffff;">Email Address</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email address" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; color: #ffffff;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="phone" style="display: block; margin-bottom: 8px; font-weight: 600; color: #ffffff;">Phone Number</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; color: #ffffff;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="address" style="display: block; margin-bottom: 8px; font-weight: 600; color: #ffffff;">Delivery Address</label>
+                    <textarea id="address" class="form-control" placeholder="Enter your delivery address" rows="3" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; resize: vertical; color: #ffffff;"></textarea>
+                </div>
+
+                <div class="form-row" style="display: flex; gap: 15px; margin-bottom: 20px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label for="city" style="display: block; margin-bottom: 8px; font-weight: 600; color: #ffffff;">Kota</label>
+                        <input type="text" id="city" class="form-control" placeholder="Kota" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; color: #ffffff;">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="zipCode" style="display: block; margin-bottom: 8px; font-weight: 600; color: #ffffff;">Kode Pos</label>
+                        <input type="text" id="zipCode" class="form-control" placeholder="Kode Pos" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; color: #ffffff;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-methods-section" style="padding: 30px; border-top: 1px solid #eee; border-bottom: 1px solid #eee;">
+                <h3 style="color: var(--primary-color); margin: 0 0 20px; font-size: 1.3rem;">Payment Method</h3>
+
+                <div class="payment-options">
+                    <div class="payment-option active" style="background: #f9f9f9; border: 2px solid var(--primary-color); border-radius: 12px; padding: 15px; margin-bottom: 15px; cursor: default;">
+                        <div style="display: flex; align-items: center;">
+                            <i class="fas fa-qrcode" style="font-size: 1.5rem; color: var(--primary-color); margin-right: 15px;"></i>
+                            <div>
+                                <strong>QRIS</strong>
+                                <div style="font-size: 0.9rem; color: #666;">Scan QR code to pay</div>
+                            </div>
+                            <span style="margin-left: auto; background: var(--primary-color); color: var(--dark-color); padding: 5px 10px; border-radius: 20px; font-size: 0.8rem;">Recommended</span>
+                        </div>
+                    </div>
+
+                    <div class="payment-option disabled" style="background: #f0f0f0; border: 2px solid #ddd; border-radius: 12px; padding: 15px; margin-bottom: 15px; opacity: 0.6;">
+                        <div style="display: flex; align-items: center;">
+                            <i class="fas fa-credit-card" style="font-size: 1.5rem; color: #999; margin-right: 15px;"></i>
+                            <div>
+                                <strong>Credit Card</strong>
+                                <div style="font-size: 0.9rem; color: #999;">Coming Soon</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-option disabled" style="background: #f0f0f0; border: 2px solid #ddd; border-radius: 12px; padding: 15px; margin-bottom: 15px; opacity: 0.6;">
+                        <div style="display: flex; align-items: center;">
+                            <i class="fas fa-university" style="font-size: 1.5rem; color: #999; margin-right: 15px;"></i>
+                            <div>
+                                <strong>Bank Transfer</strong>
+                                <div style="font-size: 0.9rem; color: #999;">Coming Soon</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-option" style="background: #f0f0f0; border: 2px solid #25D366; border-radius: 12px; padding: 15px; margin-bottom: 15px; cursor: pointer; margin-top: 15px;" onclick="sendToWhatsApp()">
+                        <div style="display: flex; align-items: center;">
+                            <i class="fab fa-whatsapp" style="font-size: 1.5rem; color: #25D366; margin-right: 15px;"></i>
+                            <div>
+                                <strong>Order via WhatsApp</strong>
+                                <div style="font-size: 0.9rem; color: #666;">Click to order via WhatsApp</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="qris-section">
+                <h3 class="qris-title">Scan QRIS to Pay</h3>
+
+                <div class="amount-display">
+                    <div class="amount-label">Amount to Pay</div>
+                    <div class="amount-value">Rp 59.500</div>
+                </div>
+
+                <div class="qris-code">
+                    <img src="assets/qris.jpeg" alt="QRIS Payment Code" style="width: 200px; height: 200px; object-fit: contain;">
+                </div>
+
+                <div class="timer">
+                    <i class="fas fa-clock"></i> Time remaining: <span id="countdown">15:00</span>
+                </div>
+
+                <div class="qris-instructions">
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-text">Open your bank's mobile app or e-wallet</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-text">Select "Scan QR" feature</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-text">Scan the QR code above</div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-text">Confirm payment amount and complete transaction</div>
+                    </div>
+                </div>
+
+                <div class="payment-status" id="paymentStatus">
+                    <i class="fas fa-check-circle"></i> Payment Received!
+                </div>
+
+                <!-- Payment Proof Upload Section -->
+                <div class="payment-proof-section" style="margin-top: 25px; padding: 20px; background: #f9f9f9; border-radius: 12px; border: 1px dashed #ddd;">
+                    <h4 style="color: var(--primary-color); margin-bottom: 15px; text-align: center;"><i class="fas fa-receipt"></i> Upload Payment Proof</h4>
+                    <p style="text-align: center; margin-bottom: 15px; color: #666; font-size: 0.9rem;">Upload your payment receipt below to confirm your transaction</p>
+
+                    <div class="upload-area" id="uploadArea" style="border: 2px dashed #ccc; border-radius: 10px; padding: 25px; text-align: center; cursor: pointer; transition: border-color 0.3s;">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: #ccc; margin-bottom: 15px;"></i>
+                        <p style="margin: 10px 0; color: #666;">Click to upload or drag & drop</p>
+                        <p style="margin: 5px 0; font-size: 0.8rem; color: #999;">JPG, PNG, PDF up to 5MB</p>
+                        <input type="file" id="proofUpload" accept="image/*,.pdf" style="display: none;">
+                    </div>
+
+                    <div id="previewContainer" style="margin-top: 15px; display: none;">
+                        <img id="imagePreview" src="" alt="Payment Proof Preview" style="max-width: 100%; border-radius: 8px; display: block; margin: 10px auto;">
+                        <button type="button" id="removeImage" style="background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+                            <i class="fas fa-trash"></i> Remove Image
+                        </button>
+                    </div>
+
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="submitPaymentWithProof()">
+                        <i class="fas fa-paper-plane"></i> Submit Payment & Proof
+                    </button>
+                </div>
+
+                <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="simulatePayment()">
+                    <i class="fas fa-qrcode"></i> Simulate Payment Received
+                </button>
+            </div>
+
+            <div class="back-to-home">
+                <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Shop</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Countdown timer
+        let timeLeft = 15 * 60; // 15 minutes in seconds
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('countdown').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('countdown').textContent = "Time Expired";
+                document.getElementById('countdown').style.color = "#e74c3c";
+            }
+            
+            timeLeft--;
+        }
+        
+        const timerInterval = setInterval(updateTimer, 1000);
+        updateTimer(); // Initial call to show time immediately
+        
+        // Simulate payment received
+        function simulatePayment() {
+            // Get all shipping information fields
+            const fullNameField = document.getElementById('fullName');
+            const emailField = document.getElementById('email');
+            const phoneField = document.getElementById('phone');
+            const addressField = document.getElementById('address');
+            const cityField = document.getElementById('city');
+            const zipCodeField = document.getElementById('zipCode');
+
+            // Check if all required shipping fields are filled
+            if(!fullNameField.value.trim() || !emailField.value.trim() || !phoneField.value.trim() ||
+               !addressField.value.trim() || !cityField.value.trim() || !zipCodeField.value.trim()) {
+                alert('Harap lengkapi semua informasi pengiriman sebelum melanjutkan pembayaran.');
+                // Scroll to shipping section
+                document.querySelector('.shipping-section').scrollIntoView({behavior: 'smooth'});
+                return;
+            }
+
+            // Create order object and save to localStorage
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const quantityElement = document.querySelector('.quantity-display');
+            const quantity = quantityElement ? parseInt(quantityElement.textContent) || 1 : 1;
+            const totalText = document.getElementById('orderTotal') ? document.getElementById('orderTotal').textContent : 'Rp 64.000';
+            const total = parseFloat(totalText.replace(/[Rp.]/g, '').replace(/\s/g, '')) || 64000;
+
+            const newOrder = {
+                id: `LVN-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`,
+                user: currentUser.username || currentUser.email,
+                product: "Luvyn Premium Smart Bulb",
+                quantity: quantity,
+                total: total,
+                date: new Date().toISOString(),
+                status: 'pending', // Default status is pending
+                paymentMethod: 'QRIS',
+                fullName: fullNameField.value,
+                email: emailField.value,
+                phone: phoneField.value,
+                address: addressField.value,
+                city: cityField.value,
+                zipCode: zipCodeField.value
+            };
+
+            // Save order to localStorage
+            const existingOrders = JSON.parse(localStorage.getItem('orders')) || [];
+            existingOrders.push(newOrder);
+            localStorage.setItem('orders', JSON.stringify(existingOrders));
+
+            document.getElementById('paymentStatus').classList.add('active');
+            setTimeout(() => {
+                window.location.href = 'success.html';
+            }, 1500);
+        }
+
+        // Send order to WhatsApp
+        function sendToWhatsApp() {
+            // Get all shipping information fields
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const city = document.getElementById('city').value;
+            const zipCode = document.getElementById('zipCode').value;
+            const quantity = document.getElementById('itemQuantity').textContent || 1;
+            const total = document.getElementById('orderTotal').textContent || 'Rp 64.000';
+
+            // Check if all required shipping fields are filled
+            if(!fullName.trim() || !email.trim() || !phone.trim() ||
+               !address.trim() || !city.trim() || !zipCode.trim()) {
+                alert('Harap lengkapi semua informasi pengiriman sebelum memesan via WhatsApp.');
+                // Scroll to shipping section
+                document.querySelector('.shipping-section').scrollIntoView({behavior: 'smooth'});
+                return;
+            }
+
+            // Create order message
+            const productName = "Luvyn Premium Smart Bulb";
+            const message = `Halo, saya ingin memesan:\n\n` +
+                           `Produk: ${productName}\n` +
+                           `Jumlah: ${quantity}\n` +
+                           `Total: ${total}\n\n` +
+                           `Informasi Pengiriman:\n` +
+                           `Nama: ${fullName}\n` +
+                           `Email: ${email}\n` +
+                           `Telepon: ${phone}\n` +
+                           `Alamat: ${address}\n` +
+                           `Kota: ${city}\n` +
+                           `Kode Pos: ${zipCode}\n\n` +
+                           `Mohon segera diproses. Terima kasih.`;
+
+            // Encode message for URL
+            const encodedMessage = encodeURIComponent(message);
+
+            // Open WhatsApp with pre-filled message
+            // Using a sample WhatsApp number - you should replace this with your actual business number
+            window.open(`https://wa.me/6281548927155?text=${encodedMessage}`, '_blank');
+        }
+
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger?.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Check if user is logged in when page loads
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+        if (isLoggedIn !== 'true') {
+            // Redirect to login page with redirect parameter
+            localStorage.setItem('redirectAfterLogin', 'payment.html');
+            window.location.href = 'login.html';
+        } else {
+            // Show logout button and hide login button
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            if (loginBtn) loginBtn.style.display = 'none';
+            if (logoutBtn) logoutBtn.style.display = 'inline-block';
+
+            // Display user info
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                const userDisplay = document.getElementById('userDisplay');
+                if (userDisplay) {
+                    userDisplay.textContent = currentUser.name || 'User';
+                }
+            }
+        }
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger?.classList.remove('active');
+                navMenu?.classList.remove('active');
+            });
+        });
+
+        // Handle logout
+        document.getElementById('logoutBtn')?.addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear stored user data
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('currentUser');
+
+                // Redirect to home page after logout
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Update order summary with quantity from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantity = localStorage.getItem('cartQuantity') || 1;
+            const total = localStorage.getItem('cartTotal') || 64000;
+
+            // Update the displayed values
+            document.getElementById('itemQuantity').textContent = quantity;
+            document.getElementById('itemSubtotal').textContent = `Rp ${(55000 * quantity).toLocaleString('id-ID')}`;
+            document.getElementById('orderTotal').textContent = `Rp ${total.toLocaleString('id-ID')}`;
+        });
+
+        // Payment proof upload functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadArea = document.getElementById('uploadArea');
+            const proofUpload = document.getElementById('proofUpload');
+            const previewContainer = document.getElementById('previewContainer');
+            const imagePreview = document.getElementById('imagePreview');
+            const removeImage = document.getElementById('removeImage');
+
+            // Click on upload area triggers file input
+            uploadArea.addEventListener('click', function() {
+                proofUpload.click();
+            });
+
+            // Handle file selection
+            proofUpload.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+
+                if (file) {
+                    // Validate file type
+                    const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
+                    if (!validTypes.includes(file.type)) {
+                        alert('Please select a valid image file (JPG, PNG) or PDF.');
+                        return;
+                    }
+
+                    // Validate file size (max 5MB)
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert('File size exceeds 5MB limit. Please select a smaller file.');
+                        return;
+                    }
+
+                    // Show preview for image files
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            imagePreview.src = e.target.result;
+                            previewContainer.style.display = 'block';
+                            uploadArea.style.borderColor = '#FFD700';
+                        };
+
+                        reader.readAsDataURL(file);
+                    } else {
+                        // For PDF files, show a generic icon
+                        imagePreview.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24"><rect width="18" height="20" x="3" y="2" fill="%23f0f0f0" stroke="%23ccc"/><path d="M5 4h14v2H5zm0 4h14v2H5zm0 4h14v2H5zm0 4h10v2H5z" fill="%23666"/><circle cx="15" cy="7" r="1.5" fill="%23666"/></svg>';
+                        imagePreview.alt = 'PDF Document';
+                        previewContainer.style.display = 'block';
+                        uploadArea.style.borderColor = '#FFD700';
+                    }
+                }
+            });
+
+            // Remove uploaded image
+            removeImage.addEventListener('click', function() {
+                proofUpload.value = '';
+                previewContainer.style.display = 'none';
+                uploadArea.style.borderColor = '#ccc';
+            });
+
+            // Drag and drop functionality
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#FFD700';
+                uploadArea.style.backgroundColor = '#fff8e1';
+            });
+
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#ccc';
+                uploadArea.style.backgroundColor = 'transparent';
+            });
+
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#ccc';
+                uploadArea.style.backgroundColor = 'transparent';
+
+                if (e.dataTransfer.files.length) {
+                    proofUpload.files = e.dataTransfer.files;
+                    // Trigger change event
+                    const event = new Event('change', { bubbles: true });
+                    proofUpload.dispatchEvent(event);
+                }
+            });
+        });
+
+        // Function to submit payment with proof
+        function submitPaymentWithProof() {
+            // Get all shipping information fields
+            const fullNameField = document.getElementById('fullName');
+            const emailField = document.getElementById('email');
+            const phoneField = document.getElementById('phone');
+            const addressField = document.getElementById('address');
+            const cityField = document.getElementById('city');
+            const zipCodeField = document.getElementById('zipCode');
+            const proofUpload = document.getElementById('proofUpload');
+
+            // Check if all required shipping fields are filled
+            if(!fullNameField.value.trim() || !emailField.value.trim() || !phoneField.value.trim() ||
+               !addressField.value.trim() || !cityField.value.trim() || !zipCodeField.value.trim()) {
+                alert('Harap lengkapi semua informasi pengiriman sebelum melanjutkan pembayaran.');
+                // Scroll to shipping section
+                document.querySelector('.shipping-section').scrollIntoView({behavior: 'smooth'});
+                return;
+            }
+
+            // Check if payment proof is uploaded
+            if (!proofUpload.value) {
+                alert('Harap unggah bukti pembayaran terlebih dahulu.');
+                return;
+            }
+
+            // Create order object and save to localStorage
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const quantityElement = document.querySelector('.quantity-display');
+            const quantity = quantityElement ? parseInt(quantityElement.textContent) || 1 : 1;
+            const totalText = document.getElementById('orderTotal') ? document.getElementById('orderTotal').textContent : 'Rp 64.000';
+            const total = parseFloat(totalText.replace(/[Rp.]/g, '').replace(/\s/g, '')) || 64000;
+
+            const newOrder = {
+                id: `LVN-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`,
+                user: currentUser.username || currentUser.email,
+                product: "Luvyn Premium Smart Bulb",
+                quantity: quantity,
+                total: total,
+                date: new Date().toISOString(),
+                status: 'pending', // Default status is pending
+                paymentMethod: 'QRIS',
+                fullName: fullNameField.value,
+                email: emailField.value,
+                phone: phoneField.value,
+                address: addressField.value,
+                city: cityField.value,
+                zipCode: zipCodeField.value
+            };
+
+            // Save order to localStorage
+            const existingOrders = JSON.parse(localStorage.getItem('orders')) || [];
+            existingOrders.push(newOrder);
+            localStorage.setItem('orders', JSON.stringify(existingOrders));
+
+            // In a real application, you would send the form data along with the proof file to a server
+            // For this demo, we'll just show a success message and redirect
+
+            // Show success message
+            document.getElementById('paymentStatus').classList.add('active');
+            document.getElementById('paymentStatus').innerHTML = '<i class="fas fa-check-circle"></i> Payment Proof Submitted Successfully!';
+
+            // Store payment proof in localStorage (in a real app, you'd send to server)
+            const file = proofUpload.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Store the file data in localStorage
+                    localStorage.setItem('paymentProof', e.target.result);
+                    localStorage.setItem('paymentProofName', file.name);
+
+                    // Redirect to success page after delay
+                    setTimeout(() => {
+                        window.location.href = 'success.html';
+                    }, 1500);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // Redirect to success page after delay
+                setTimeout(() => {
+                    window.location.href = 'success.html';
+                }, 1500);
+            }
+        }
+
+    </script>
+</body>
+</html>

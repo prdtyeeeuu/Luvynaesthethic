@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Luvyn Smart Bulb</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .orders-section {
+            background: transparent;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .orders-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .orders-header {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--primary-color);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .orders-header h2 {
+            font-size: 2.5rem;
+            margin: 0;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .orders-content {
+            padding: 40px;
+        }
+
+        .order-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .order-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .order-id {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .order-date {
+            color: #aaa;
+        }
+
+        .order-status {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .status-pending {
+            background: rgba(243, 156, 18, 0.2);
+            color: #f39c12;
+        }
+
+        .status-accepted {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+        }
+
+        .status-rejected {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+
+        .status-shipped {
+            background: rgba(241, 196, 15, 0.2);
+            color: #f1c40f;
+        }
+
+        .status-delivered {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+        }
+
+        .order-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-label {
+            color: #aaa;
+        }
+
+        .detail-value {
+            font-weight: 600;
+        }
+
+        .no-orders {
+            text-align: center;
+            padding: 40px;
+            color: #aaa;
+        }
+
+        .no-orders i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .orders-content {
+                padding: 20px;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .order-status {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="assets/logobaru.png" alt="Luvyn Logo" style="height: 40px; width: auto;">
+                </a>
+                <div class="nav-menu" id="nav-menu">
+                    <ul class="nav-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#pricing">Pricing</a></li>
+                        <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+                        <li><a href="order-features.html">Order Features</a></li>
+                        <li><a href="order-view.html" class="active">My Orders</a></li>
+                        <li><a href="https://www.instagram.com/__luvynlight/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li>
+                            <div class="auth-buttons">
+                                <a href="login.html" id="loginBtn" class="btn btn-secondary" style="display: inline;">Login</a>
+                                <button id="logoutBtn" class="btn btn-secondary" style="display: none;">Logout</button>
+                                <span id="userDisplay" style="margin-left: 10px; color: var(--primary-color); display: none;"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="orders-section">
+        <div class="orders-container">
+            <div class="orders-header">
+                <h2>My Orders</h2>
+                <p>Track the status of your recent orders</p>
+            </div>
+
+            <div class="orders-content">
+                <div id="ordersList">
+                    <!-- Orders will be loaded dynamically -->
+                    <div class="no-orders">
+                        <i class="fas fa-box-open"></i>
+                        <h3>No Orders Found</h3>
+                        <p>You haven't placed any orders yet. Start shopping to see your orders here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger?.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger?.classList.remove('active');
+                navMenu?.classList.remove('active');
+            });
+        });
+
+        // Check if user is logged in on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const userDisplay = document.getElementById('userDisplay');
+
+            if (isLoggedIn === 'true') {
+                // User is logged in
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+
+                // Get user info and display
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser) {
+                    userDisplay.textContent = currentUser.name || 'User';
+                    userDisplay.style.display = 'inline';
+                    
+                    // Load user orders
+                    loadUserOrders(currentUser.username || currentUser.email);
+                }
+            } else {
+                // User is not logged in
+                loginBtn.style.display = 'inline-block';
+                logoutBtn.style.display = 'none';
+                userDisplay.style.display = 'none';
+                
+                // Show login message
+                document.getElementById('ordersList').innerHTML = `
+                    <div class="no-orders">
+                        <i class="fas fa-lock"></i>
+                        <h3>Please Log In</h3>
+                        <p>You need to be logged in to view your orders.</p>
+                        <a href="login.html" class="btn btn-primary" style="margin-top: 15px;">Login Now</a>
+                    </div>
+                `;
+            }
+
+            // Handle logout
+            logoutBtn?.addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    // Clear stored user data
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('currentUser');
+
+                    // Update UI
+                    loginBtn.style.display = 'inline-block';
+                    logoutBtn.style.display = 'none';
+                    userDisplay.style.display = 'none';
+
+                    // Reload page to update UI
+                    window.location.reload();
+                }
+            });
+        });
+
+        // Function to load user orders
+        function loadUserOrders(username) {
+            // In a real application, this would fetch from a server
+            // For demo purposes, we'll use localStorage to simulate orders
+            
+            const allOrders = JSON.parse(localStorage.getItem('orders')) || [];
+            const userOrders = allOrders.filter(order => order.user === username);
+            
+            const ordersList = document.getElementById('ordersList');
+            
+            if (userOrders.length === 0) {
+                ordersList.innerHTML = `
+                    <div class="no-orders">
+                        <i class="fas fa-box-open"></i>
+                        <h3>No Orders Found</h3>
+                        <p>You haven't placed any orders yet. Start shopping to see your orders here.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let ordersHTML = '';
+            
+            userOrders.forEach(order => {
+                const statusClass = getStatusClass(order.status);
+                const statusText = getStatusText(order.status);
+                
+                ordersHTML += `
+                    <div class="order-item">
+                        <div class="order-header">
+                            <div class="order-id">${order.id}</div>
+                            <div class="order-date">${formatDate(order.date)}</div>
+                            <div class="order-status ${statusClass}">${statusText}</div>
+                        </div>
+                        
+                        <div class="order-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Product:</span>
+                                <span class="detail-value">${order.product || 'Luvyn Premium Smart Bulb'}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Quantity:</span>
+                                <span class="detail-value">${order.quantity || 1}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Total:</span>
+                                <span class="detail-value">${formatCurrency(order.total || 0)}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Payment:</span>
+                                <span class="detail-value">${order.paymentMethod || 'QRIS'}</span>
+                            </div>
+                        </div>
+                        
+                        ${order.notes ? `
+                        <div class="detail-item" style="margin-top: 10px;">
+                            <span class="detail-label">Notes:</span>
+                            <span class="detail-value">${order.notes}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            
+            ordersList.innerHTML = ordersHTML;
+        }
+
+        // Helper function to get status class
+        function getStatusClass(status) {
+            switch(status) {
+                case 'pending': return 'status-pending';
+                case 'accepted': return 'status-accepted';
+                case 'rejected': return 'status-rejected';
+                case 'shipped': return 'status-shipped';
+                case 'delivered': return 'status-delivered';
+                default: return 'status-pending';
+            }
+        }
+
+        // Helper function to get status text
+        function getStatusText(status) {
+            switch(status) {
+                case 'pending': return 'Pending';
+                case 'accepted': return 'Accepted';
+                case 'rejected': return 'Rejected';
+                case 'shipped': return 'Shipped';
+                case 'delivered': return 'Delivered';
+                default: return 'Pending';
+            }
+        }
+
+        // Helper function to format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        // Helper function to format currency
+        function formatCurrency(amount) {
+            return `Rp ${amount.toLocaleString('id-ID')}`;
+        }
+    </script>
+</body>
+</html>

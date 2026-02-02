@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Luvyn Smart Bulb</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .login-section {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            padding: 100px 0;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+
+        .login-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h2 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .login-form {
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 1.1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+        }
+
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background: #e6c200;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #eee;
+            color: #666;
+        }
+
+        .register-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .checkbox-container {
+            display: block;
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            color: #666;
+        }
+
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 22px;
+            width: 22px;
+            background-color: #eee;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-container:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: var(--primary-color);
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .checkbox-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .checkbox-container .checkmark:after {
+            left: 7px;
+            top: 3px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+
+            .login-header h2 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="assets/logobaru.png" alt="Luvyn Logo" style="height: 40px; width: auto;">
+                </a>
+                <div class="nav-menu" id="nav-menu">
+                    <ul class="nav-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#pricing">Pricing</a></li>
+                        <li><a href="index.html">Back to Shop</a></li>
+                        <li><a href="order-view.html">My Orders</a></li>
+                        <li><a href="https://www.instagram.com/__luvynlight/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                    </ul>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="login-section">
+        <div class="login-container">
+            <div class="login-header">
+                <h2>Welcome Back</h2>
+                <p>Sign in to access your account</p>
+            </div>
+
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username or Email</label>
+                    <input type="text" id="username" class="form-control" placeholder="Enter your username or email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="remember">
+                        <span class="checkmark"></span>
+                        Remember me
+                    </label>
+                </div>
+
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+
+            <div class="register-link">
+                <p>Don't have an account? <a href="register.html">Register here</a></p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger?.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger?.classList.remove('active');
+                navMenu?.classList.remove('active');
+            });
+        });
+
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const usernameOrEmail = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+
+            // Check for admin login first
+            if (usernameOrEmail === 'admin' && password === 'adminganteng') {
+                // Admin login successful
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', JSON.stringify({
+                    username: 'admin',
+                    name: 'Administrator',
+                    type: 'admin'
+                }));
+
+                if(remember) {
+                    localStorage.setItem('rememberMe', 'true');
+                }
+
+                alert('Welcome back, Administrator!');
+
+                // Redirect to admin panel
+                window.location.href = 'admin-panel.html';
+                return;
+            }
+
+            // Retrieve users from localStorage
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // Find user by username or email (case-insensitive comparison)
+            const user = users.find(u => u.username.toLowerCase() === usernameOrEmail.toLowerCase() ||
+                                          u.email.toLowerCase() === usernameOrEmail.toLowerCase());
+
+            if (user) {
+                // User found, now check password
+                if (user.password === password) {
+                    // Successful login
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+
+                    if(remember) {
+                        localStorage.setItem('rememberMe', 'true');
+                    }
+
+                    alert(`Welcome back, ${user.name}! You have successfully logged in.`);
+
+                    // Check for redirect URL in localStorage or URL parameters
+                    const redirectUrl = localStorage.getItem('redirectAfterLogin') ||
+                                      new URLSearchParams(window.location.search).get('redirect') ||
+                                      'index.html';
+                    localStorage.removeItem('redirectAfterLogin'); // Clean up
+                    window.location.href = redirectUrl;
+                } else {
+                    // Password doesn't match
+                    alert('Invalid password. Please try again.');
+                }
+            } else {
+                // User not found
+                alert('User not found. Please check your username/email or register a new account.');
+            }
+        });
+    </script>
+</body>
+</html>

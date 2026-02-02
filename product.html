@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luvyn Premium Smart Bulb - Product Detail</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .product-detail-section {
+            background: transparent;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .product-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .product-header {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--primary-color);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .product-header h2 {
+            font-size: 2.5rem;
+            margin: 0;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .product-content {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .product-image {
+            text-align: center;
+            position: relative;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .product-image-slider {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .product-thumbnails {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .thumbnail.active {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 0 20px;
+            color: #ffffff;
+        }
+
+        .product-title {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .stars {
+            color: var(--primary-color);
+        }
+
+        .reviews-count {
+            color: #aaa;
+        }
+
+        .product-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ddd;
+            margin: 25px 0;
+        }
+
+        .product-features {
+            margin: 30px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .feature-icon {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-top: 5px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .qty-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: var(--dark-color);
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-display {
+            font-size: 1.8rem;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-add-to-cart {
+            flex: 1;
+            background: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+            border: 1px solid #28a745;
+        }
+
+        .btn-add-to-cart:hover {
+            background: rgba(40, 167, 69, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-buy-now {
+            flex: 1;
+            background: var(--primary-color);
+            color: var(--dark-color);
+        }
+
+        .btn-buy-now:hover {
+            background: #e6c200;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .product-specs {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .specs-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: #ddd;
+        }
+
+        .spec-value {
+            color: #aaa;
+        }
+
+        .product-highlights {
+            margin: 30px 0;
+        }
+
+        .highlight-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .highlight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .highlight-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .highlight-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .highlight-text {
+            font-weight: 600;
+            color: #ddd;
+        }
+
+        @media (max-width: 992px) {
+            .product-content {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image {
+                order: 1;
+            }
+
+            .product-info {
+                order: 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-actions {
+                flex-direction: column;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="assets/logobaru.png" alt="Luvyn Logo" style="height: 40px; width: auto;">
+                </a>
+                <div class="nav-menu" id="nav-menu">
+                    <ul class="nav-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#pricing">Pricing</a></li>
+                        <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+                        <li><a href="order-view.html">My Orders</a></li>
+                        <li><a href="https://www.instagram.com/__luvynlight/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li>
+                            <div class="auth-buttons">
+                                <a href="login.html" id="loginBtn" class="btn btn-secondary" style="display: inline;">Login</a>
+                                <button id="logoutBtn" class="btn btn-secondary" style="display: none;">Logout</button>
+                                <span id="userDisplay" style="margin-left: 10px; color: var(--primary-color); display: none;"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="product-detail-section">
+        <div class="product-container">
+            <div class="product-header">
+                <h2>Product Details</h2>
+            </div>
+
+            <div class="product-content">
+                <div class="product-image">
+                    <div class="product-image-slider">
+                        <img src="assets/luvyn.png" alt="Luvyn Premium Smart Bulb" id="mainImage">
+                    </div>
+                    <div class="product-thumbnails">
+                        <div class="thumbnail active" onclick="changeImage('assets/luvyn.png')">
+                            <img src="assets/luvyn.png" alt="Lampu Biasa">
+                        </div>
+                        <div class="thumbnail" onclick="changeImage('assets/packaging.jpg')">
+                            <img src="assets/packaging.jpg" alt="Packaging Produk">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <h1 class="product-title">Luvyn Premium Smart Bulb</h1>
+                    
+                    <div class="product-price">Rp 55.000</div>
+                    
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="reviews-count">(128 Reviews)</span>
+                    </div>
+
+                    <div class="product-sold" style="display: flex; align-items: center; gap: 15px; margin: 15px 0; padding: 15px; background: #e8f4fd; border-radius: 10px; border-left: 4px solid var(--primary-color);">
+                        <i class="fas fa-shopping-bag" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+                        <div>
+                            <div style="font-weight: 600; color: var(--primary-color);">1.2k Products Sold</div>
+                            <div style="font-size: 0.9rem; color: #666;">In the past month</div>
+                        </div>
+                    </div>
+                    
+                    <p class="product-description">
+                        Experience the future of home automation with our premium Luvyn Smart Bulb. Control colors, brightness, and scheduling from anywhere using your smartphone. Perfect for creating the right ambiance for any occasion. With energy-efficient LED technology and 16 million RGB colors, transform your space with just a tap on your phone.
+                    </p>
+                    
+                    <div class="product-features">
+                        <h3>Key Features:</h3>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>16 Million RGB Colors - Choose from millions of colors to set the perfect mood</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>App Control - Control your lights from anywhere with our intuitive mobile app</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>Dimming Function - Adjust brightness from 1% to 100%</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>Schedule & Timer - Set automatic on/off times for convenience</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>Energy Efficient - LED technology saves up to 80% energy compared to traditional bulbs</span>
+                        </div>
+                    </div>
+                    
+                    <div class="quantity-control">
+                        <button type="button" id="decreaseQty" class="qty-btn">-</button>
+                        <span id="quantity" class="quantity-display">1</span>
+                        <button type="button" id="increaseQty" class="qty-btn">+</button>
+                    </div>
+                    
+                    <div class="product-actions">
+                        <button class="btn btn-add-to-cart">Add to Cart</button>
+                        <a href="payment.html" class="btn btn-buy-now">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-specs">
+                <h3 class="specs-title">Technical Specifications</h3>
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <span class="spec-label">Power Consumption</span>
+                        <span class="spec-value">9W</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Voltage</span>
+                        <span class="spec-value">AC 220V-240V</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">LED Type</span>
+                        <span class="spec-value">RGB LED</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Color Temperature</span>
+                        <span class="spec-value">2700K-6500K</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Luminous Flux</span>
+                        <span class="spec-value">800 lumens</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Life Span</span>
+                        <span class="spec-value">25,000 hours</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Connectivity</span>
+                        <span class="spec-value">Wi-Fi, Bluetooth</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Compatibility</span>
+                        <span class="spec-value">iOS, Android</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-highlights">
+                <h3 class="highlight-title">Why Choose Luvyn?</h3>
+                <div class="highlight-grid">
+                    <div class="highlight-item">
+                        <i class="fas fa-bolt highlight-icon"></i>
+                        <h4>Energy Efficient</h4>
+                        <p>Save up to 80% energy compared to traditional bulbs</p>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-music highlight-icon"></i>
+                        <h4>Music Sync</h4>
+                        <p>Lights sync with your music rhythm</p>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-moon highlight-icon"></i>
+                        <h4>Wake Up/Sleep</h4>
+                        <p>Gentle light transitions for better sleep cycles</p>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-shield-alt highlight-icon"></i>
+                        <h4>Safe & Reliable</h4>
+                        <p>Overheat protection and certified safety</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Quantity control functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const decreaseBtn = document.getElementById('decreaseQty');
+            const increaseBtn = document.getElementById('increaseQty');
+            const quantityDisplay = document.getElementById('quantity');
+            
+            let quantity = 1;
+            
+            // Update display
+            function updateDisplay() {
+                quantityDisplay.textContent = quantity;
+            }
+            
+            // Decrease quantity
+            decreaseBtn.addEventListener('click', function() {
+                if (quantity > 1) {
+                    quantity--;
+                    updateDisplay();
+                }
+            });
+            
+            // Increase quantity
+            increaseBtn.addEventListener('click', function() {
+                quantity++;
+                updateDisplay();
+            });
+            
+            // Initialize display
+            updateDisplay();
+            
+            // Add to cart functionality
+            document.querySelector('.btn-add-to-cart').addEventListener('click', function() {
+                alert(`Added ${quantity} item(s) to cart!`);
+            });
+            
+            // Buy now functionality
+            document.querySelector('.btn-buy-now').addEventListener('click', function() {
+                localStorage.setItem('cartQuantity', quantity);
+                localStorage.setItem('cartTotal', quantity * 55000 + 1000 + 8000);
+
+                // Redirect to payment page after storing quantity
+                window.location.href = 'payment.html';
+            });
+        });
+
+        // Change image function
+        function changeImage(src) {
+            document.getElementById('mainImage').src = src;
+            
+            // Update active thumbnail
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger?.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger?.classList.remove('active');
+                navMenu?.classList.remove('active');
+            });
+        });
+
+        // Check if user is logged in on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const userDisplay = document.getElementById('userDisplay');
+
+            if (isLoggedIn === 'true') {
+                // User is logged in
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+
+                // Get user info and display
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser) {
+                    userDisplay.textContent = currentUser.name || 'User';
+                    userDisplay.style.display = 'inline';
+                }
+            } else {
+                // User is not logged in
+                loginBtn.style.display = 'inline-block';
+                logoutBtn.style.display = 'none';
+                userDisplay.style.display = 'none';
+            }
+
+            // Handle logout
+            logoutBtn?.addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    // Clear stored user data
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('currentUser');
+
+                    // Update UI
+                    loginBtn.style.display = 'inline-block';
+                    logoutBtn.style.display = 'none';
+                    userDisplay.style.display = 'none';
+
+                    // Reload page to update UI
+                    window.location.reload();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

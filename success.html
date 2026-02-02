@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - Luvyn Smart Bulb</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .success-section {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            padding: 100px 0;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(40, 167, 69, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .success-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        .success-icon {
+            font-size: 6rem;
+            color: var(--success-color);
+            margin-bottom: 20px;
+            display: inline-block;
+            width: 120px;
+            height: 120px;
+            line-height: 120px;
+            background: rgba(40, 167, 69, 0.1);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .success-icon::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid rgba(40, 167, 69, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.8);
+                opacity: 0.7;
+            }
+        }
+
+        .success-header h2 {
+            color: var(--primary-color);
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .success-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .success-header p {
+            color: #666;
+            font-size: 1.2rem;
+            margin: 0 0 30px;
+        }
+
+        .order-details {
+            background: linear-gradient(to right, #f8f9fa, #ffffff);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-home {
+            background: var(--light-color);
+            color: var(--white);
+        }
+
+        .btn-home:hover {
+            background: #333;
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        @media (max-width: 768px) {
+            .success-container {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+
+            .success-header h2 {
+                font-size: 2.2rem;
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Luvyn</a>
+                <div class="nav-menu" id="nav-menu">
+                    <ul class="nav-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#pricing">Pricing</a></li>
+                        <li><a href="order-view.html">My Orders</a></li>
+                        <li><a href="https://www.instagram.com/__luvynlight/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                    </ul>
+                    <a href="login.html" class="btn btn-secondary">Login</a>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="success-section">
+        <div class="success-container">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <div class="success-header">
+                <h2>Order Confirmed!</h2>
+                <p>Your payment has been processed successfully. Thank you for choosing Luvyn!</p>
+            </div>
+
+            <div class="order-details">
+                <h3><i class="fas fa-receipt" style="color: var(--primary-color); margin-right: 10px;"></i> Order Details</h3>
+                <div class="detail-item">
+                    <span><i class="fas fa-tag" style="margin-right: 8px;"></i> Order ID:</span>
+                    <span>#LVN-2026-001</span>
+                </div>
+                <div class="detail-item">
+                    <span><i class="far fa-calendar-alt" style="margin-right: 8px;"></i> Date:</span>
+                    <span>Jan 25, 2026</span>
+                </div>
+                <div class="detail-item">
+                    <span><i class="fas fa-lightbulb" style="margin-right: 8px; color: var(--primary-color);"></i> Product:</span>
+                    <span>Luvyn Premium Smart Bulb</span>
+                </div>
+                <div class="detail-item">
+                    <span><i class="fas fa-money-bill-wave" style="margin-right: 8px; color: var(--success-color);"></i> Amount:</span>
+                    <span>Rp 59.500</span>
+                </div>
+                <div class="detail-item">
+                    <span><i class="fas fa-shield-alt" style="margin-right: 8px;"></i> Status:</span>
+                    <span style="color: var(--success-color); font-weight: bold;"><i class="fas fa-check-circle"></i> Confirmed</span>
+                </div>
+            </div>
+
+            <p><i class="fas fa-envelope" style="color: var(--primary-color); margin-right: 8px;"></i> You will receive a confirmation email with shipping information shortly.</p>
+
+            <div class="navigation-buttons">
+                <a href="index.html" class="btn btn-home"><i class="fas fa-home"></i> Back to Home</a>
+                <a href="index.html#pricing" class="btn btn-success"><i class="fas fa-shopping-bag"></i> Continue Shopping</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-box">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <form class="login-form" id="loginForm">
+                <h2>Login to Your Account</h2>
+
+                <div class="login-type-selector">
+                    <button type="button" class="login-type-btn active" data-type="user">User</button>
+                    <button type="button" class="login-type-btn" data-type="admin">Admin</button>
+                </div>
+
+                <input type="hidden" id="loginType" value="user">
+
+                <div class="form-group">
+                    <label for="username">Username or Email</label>
+                    <input type="text" id="username" class="form-control" placeholder="Enter your username or email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger?.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger?.classList.remove('active');
+                navMenu?.classList.remove('active');
+            });
+        });
+
+        // Authentication functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const loginModal = document.getElementById('loginModal');
+            const closeModal = document.getElementById('closeModal');
+            const loginForm = document.getElementById('loginForm');
+            const userDisplay = document.getElementById('userDisplay');
+            const loginTypeSelector = document.querySelectorAll('.login-type-btn');
+            const loginTypeInput = document.getElementById('loginType');
+
+            // Sample user and admin credentials (in a real app, this would come from a server)
+            const users = {
+                'user': { username: 'user', password: 'user123', name: 'John Doe', type: 'user' },
+                'admin': { username: 'admin', password: 'admin123', name: 'Admin User', type: 'admin' }
+            };
+
+            // Open login modal
+            loginBtn?.addEventListener('click', () => {
+                loginModal.style.display = 'flex';
+            });
+
+            // Close login modal
+            closeModal?.addEventListener('click', () => {
+                loginModal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside the box
+            window.addEventListener('click', (e) => {
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+            });
+
+            // Switch between user and admin login
+            loginTypeSelector.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    loginTypeSelector.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    loginTypeInput.value = btn.dataset.type;
+                });
+            });
+
+            // Handle login form submission
+            loginForm?.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const userType = loginTypeInput.value;
+
+                // Check if credentials match
+                if (users[userType] && users[userType].username === username && users[userType].password === password) {
+                    // Successful login
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('currentUser', JSON.stringify(users[userType]));
+
+                    // Update UI
+                    loginBtn.style.display = 'none';
+                    logoutBtn.style.display = 'inline-block';
+                    userDisplay.textContent = `${users[userType].name} (${users[userType].type})`;
+                    userDisplay.style.display = 'inline';
+
+                    // Close modal
+                    loginModal.style.display = 'none';
+
+                    // Reset form
+                    loginForm.reset();
+
+                    alert(`Welcome, ${users[userType].name}! You have successfully logged in as ${users[userType].type}.`);
+                } else {
+                    alert('Invalid username or password. Please try again.');
+                }
+            });
+
+            // Handle logout
+            logoutBtn?.addEventListener('click', () => {
+                if (confirm('Are you sure you want to logout?')) {
+                    // Clear stored user data
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('currentUser');
+
+                    // Update UI
+                    loginBtn.style.display = 'inline-block';
+                    logoutBtn.style.display = 'none';
+                    userDisplay.style.display = 'none';
+
+                    alert('You have been logged out successfully.');
+                }
+            });
+
+            // Check if user is already logged in on page load
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn === 'true') {
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser) {
+                    loginBtn.style.display = 'none';
+                    logoutBtn.style.display = 'inline-block';
+                    userDisplay.textContent = `${currentUser.name} (${currentUser.type})`;
+                    userDisplay.style.display = 'inline';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

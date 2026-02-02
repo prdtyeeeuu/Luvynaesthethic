@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Features - Luvyn Smart Bulb</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .order-features-section {
+            background: transparent;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .order-features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .order-features-header {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--primary-color);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .order-features-header h2 {
+            font-size: 2.5rem;
+            margin: 0;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .order-features-content {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .feature-description {
+            color: #ddd;
+            line-height: 1.6;
+        }
+
+        .tracking-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .tracking-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .tracking-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tracking-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .tracking-input button {
+            padding: 12px 20px;
+            background: var(--primary-color);
+            color: var(--dark-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .order-history {
+            margin: 30px 0;
+        }
+
+        .history-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .order-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .order-id {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .order-date {
+            color: #aaa;
+        }
+
+        .order-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background: rgba(243, 156, 18, 0.2);
+            color: #f39c12;
+        }
+
+        .status-processing {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+        }
+
+        .status-shipped {
+            background: rgba(241, 196, 15, 0.2);
+            color: #f1c40f;
+        }
+
+        .status-delivered {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+        }
+
+        .order-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-label {
+            color: #aaa;
+        }
+
+        .detail-value {
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .order-features-content {
+                padding: 20px;
+            }
+
+            .order-features-header h2 {
+                font-size: 2rem;
+            }
+
+            .tracking-input {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="assets/logobaru.png" alt="Luvyn Logo" style="height: 40px; width: auto;">
+                </a>
+                <div class="nav-menu" id="nav-menu">
+                    <ul class="nav-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#pricing">Pricing</a></li>
+                        <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+                        <li><a href="order-features.html" class="active">Order Features</a></li>
+                        <li><a href="order-view.html">My Orders</a></li>
+                        <li><a href="https://www.instagram.com/__luvynlight/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li>
+                            <div class="auth-buttons">
+                                <a href="login.html" id="loginBtn" class="btn btn-secondary" style="display: inline;">Login</a>
+                                <button id="logoutBtn" class="btn btn-secondary" style="display: none;">Logout</button>
+                                <span id="userDisplay" style="margin-left: 10px; color: var(--primary-color); display: none;"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="order-features-section">
+        <div class="order-features-container">
+            <div class="order-features-header">
+                <h2>Order Features & Services</h2>
+                <p>Discover all the features and services available for your orders</p>
+            </div>
+
+            <div class="order-features-content">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <h3 class="feature-title">Free Shipping</h3>
+                        <p class="feature-description">Enjoy free shipping on all orders within Indonesia. Delivery within 3-5 business days.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Easy Returns</h3>
+                        <p class="feature-description">Not satisfied? Return your purchase within 30 days for a full refund or exchange.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Warranty</h3>
+                        <p class="feature-description">All products come with a 1-year warranty covering manufacturing defects.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3 class="feature-title">24/7 Support</h3>
+                        <p class="feature-description">Our customer support team is available round the clock to assist you.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <h3 class="feature-title">Discount Programs</h3>
+                        <p class="feature-description">Access exclusive discounts and loyalty rewards for returning customers.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <h3 class="feature-title">Gift Options</h3>
+                        <p class="feature-description">Send your purchase as a gift with personalized messages and wrapping.</p>
+                    </div>
+                </div>
+
+                <div class="tracking-section">
+                    <h3 class="tracking-title">Track Your Order</h3>
+                    <div class="tracking-input">
+                        <input type="text" id="trackingNumber" placeholder="Enter your order ID or tracking number">
+                        <button onclick="trackOrder()">Track Order</button>
+                    </div>
+                    <div id="trackingResult" style="margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 8px; display: none;">
+                        <h4>Order Status: <span id="orderStatus" style="color: var(--primary-color);">Shipped</span></h4>
+                        <p>Estimated Delivery: <span id="deliveryDate">Feb 2, 2026</span></p>
+                        <div style="margin-top: 15px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Order Placed</span>
+                                <span>Jan 25, 2026</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Processing</span>
+                                <span>Jan 26, 2026</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Shipped</span>
+                                <span>Jan 28, 2026</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Delivered</span>
+                                <span>Est. Feb 2, 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-history">
+                    <h3 class="history-title">Recent Orders</h3>
+                    
+                    <div class="order-item">
+                        <div class="order-header">
+                            <div class="order-id">#LVN-2026-001</div>
+                            <div class="order-date">Jan 25, 2026</div>
+                            <div class="order-status status-delivered">Delivered</div>
+                        </div>
+                        <div class="order-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Product:</span>
+                                <span class="detail-value">Luvyn Premium Smart Bulb</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Quantity:</span>
+                                <span class="detail-value">1</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Total:</span>
+                                <span class="detail-value">Rp 59.500</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Payment:</span>
+                                <span class="detail-value">QRIS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="order-header">
+                            <div class="order-id">#LVN-2026-002</div>
+                            <div class="order-date">Dec 15, 2025</div>
+                            <div class="order-status status-delivered">Delivered</div>
+                        </div>
+                        <div class="order-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Product:</span>
+                                <span class="detail-value">Luvyn Premium Smart Bulb</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Quantity:</span>
+                                <span class="detail-value">2</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Total:</span>
+                                <span class="detail-value">Rp 119.000</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Payment:</span>
+                                <span class="detail-value">Credit Card</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="order-header">
+                            <div class="order-id">#LVN-2025-015</div>
+                            <div class="order-date">Nov 8, 2025</div>
+                            <div class="order-status status-delivered">Delivered</div>
+                        </div>
+                        <div class="order-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Product:</span>
+                                <span class="detail-value">Luvyn Starter Pack</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Quantity:</span>
+                                <span class="detail-value">1</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Total:</span>
+                                <span class="detail-value">Rp 150.000</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Payment:</span>
+                                <span class="detail-value">Bank Transfer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger?.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger?.classList.remove('active');
+                navMenu?.classList.remove('active');
+            });
+        });
+
+        // Check if user is logged in on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const userDisplay = document.getElementById('userDisplay');
+
+            if (isLoggedIn === 'true') {
+                // User is logged in
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+
+                // Get user info and display
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser) {
+                    userDisplay.textContent = currentUser.name || 'User';
+                    userDisplay.style.display = 'inline';
+                }
+            } else {
+                // User is not logged in
+                loginBtn.style.display = 'inline-block';
+                logoutBtn.style.display = 'none';
+                userDisplay.style.display = 'none';
+            }
+
+            // Handle logout
+            logoutBtn?.addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    // Clear stored user data
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('currentUser');
+
+                    // Update UI
+                    loginBtn.style.display = 'inline-block';
+                    logoutBtn.style.display = 'none';
+                    userDisplay.style.display = 'none';
+
+                    // Reload page to update UI
+                    window.location.reload();
+                }
+            });
+        });
+
+        // Track order functionality
+        function trackOrder() {
+            const trackingNumber = document.getElementById('trackingNumber').value;
+            
+            if (!trackingNumber) {
+                alert('Please enter a tracking number');
+                return;
+            }
+            
+            // Show tracking result
+            document.getElementById('trackingResult').style.display = 'block';
+            
+            // In a real application, this would fetch data from a server
+            // For demo purposes, we'll just show a static result
+        }
+    </script>
+</body>
+</html>

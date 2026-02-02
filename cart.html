@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Luvyn Smart Bulb</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .cart-section {
+            background: transparent;
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .cart-header {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--primary-color);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .cart-header h2 {
+            font-size: 2rem;
+            margin: 0;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .cart-content {
+            padding: 30px;
+            color: #ffffff;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cart-item-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-right: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-details {
+            flex: 1;
+            color: #ffffff;
+        }
+
+        .cart-item-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: var(--dark-color);
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .cart-summary {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .summary-title {
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            margin-top: 10px;
+            border-top: 2px solid var(--primary-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .cart-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-back {
+            flex: 1;
+            background: rgba(26, 26, 26, 0.5);
+            color: var(--primary-color);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-back:hover {
+            background: rgba(51, 51, 51, 0.7);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .btn-checkout {
+            flex: 1;
+            background: var(--primary-color);
+            color: var(--dark-color);
+        }
+
+        .btn-checkout:hover {
+            background: #e6c200;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .continue-shopping {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .continue-shopping a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cart-item-image {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .cart-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="assets/logobaru.png" alt="Luvyn Logo" style="height: 40px; width: auto;">
+                </a>
+                <div class="nav-menu" id="nav-menu">
+                    <ul class="nav-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#pricing">Pricing</a></li>
+                        <li><a href="index.html">Back to Shop</a></li>
+                        <li><a href="order-view.html">My Orders</a></li>
+                        <li><a href="https://www.instagram.com/__luvynlight/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="login.html" class="btn btn-secondary">Login</a></li>
+                    </ul>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="cart-section">
+        <div class="cart-container">
+            <div class="cart-header">
+                <h2>Your Shopping Cart</h2>
+            </div>
+
+            <div class="cart-content">
+                <div class="cart-item">
+                    <div class="cart-item-image">
+                        <img src="assets/luvyn.png" alt="Luvyn Premium Smart Bulb">
+                    </div>
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">Luvyn Premium Smart Bulb</div>
+                        <div class="cart-item-price">Rp 55.000</div>
+                        <div class="quantity-control">
+                            <button type="button" id="decreaseQty" class="qty-btn">-</button>
+                            <span id="quantity" class="quantity-display">1</span>
+                            <button type="button" id="increaseQty" class="qty-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cart-summary">
+                    <h3 class="summary-title">Order Summary</h3>
+                    <div class="summary-item">
+                        <span>Subtotal (<span id="summary-quantity">1</span> item)</span>
+                        <span id="subtotal">Rp 55.000</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Tax</span>
+                        <span id="tax">Rp 1.000</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Shipping</span>
+                        <span id="shipping">Rp 8.000</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span id="total">Rp 64.000</span>
+                    </div>
+                </div>
+
+                <div class="cart-actions">
+                    <a href="index.html" class="btn btn-back">Continue Shopping</a>
+                    <a href="payment.html" id="checkoutBtn" class="btn btn-checkout">Pesan Sekarang</a>
+                </div>
+
+                <div class="continue-shopping">
+                    <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Shop</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Quantity control functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const decreaseBtn = document.getElementById('decreaseQty');
+            const increaseBtn = document.getElementById('increaseQty');
+            const quantityDisplay = document.getElementById('quantity');
+            const summaryQuantity = document.getElementById('summary-quantity');
+            const subtotalDisplay = document.getElementById('subtotal');
+            const taxDisplay = document.getElementById('tax');
+            const shippingDisplay = document.getElementById('shipping');
+            const totalDisplay = document.getElementById('total');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            
+            let quantity = parseInt(localStorage.getItem('cartQuantity')) || 1;
+            const pricePerItem = 55000;
+            const taxRate = 1000;
+            const shippingCost = 8000;
+            
+            // Update display
+            function updateDisplay() {
+                const subtotal = quantity * pricePerItem;
+                const total = subtotal + taxRate + shippingCost;
+                
+                quantityDisplay.textContent = quantity;
+                summaryQuantity.textContent = quantity;
+                subtotalDisplay.textContent = `Rp ${subtotal.toLocaleString('id-ID')}`;
+                taxDisplay.textContent = `Rp ${taxRate.toLocaleString('id-ID')}`;
+                shippingDisplay.textContent = `Rp ${shippingCost.toLocaleString('id-ID')}`;
+                totalDisplay.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+            }
+            
+            // Decrease quantity
+            decreaseBtn.addEventListener('click', function() {
+                if (quantity > 1) {
+                    quantity--;
+                    updateDisplay();
+                }
+            });
+            
+            // Increase quantity
+            increaseBtn.addEventListener('click', function() {
+                quantity++;
+                updateDisplay();
+            });
+            
+            // Store quantity in localStorage when page loads
+            localStorage.setItem('cartQuantity', quantity);
+            localStorage.setItem('cartTotal', quantity * pricePerItem + taxRate + shippingCost);
+            
+            // Initialize display
+            updateDisplay();
+        });
+
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger?.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger?.classList.remove('active');
+                navMenu?.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
