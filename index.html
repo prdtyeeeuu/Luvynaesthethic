@@ -16,12 +16,10 @@
                 </a>
                 <div class="nav-menu" id="nav-menu">
                     <ul class="nav-links">
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="#pricing">Pricing</a></li>
                         <li><a href="products.html">Products</a></li>
                         <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
                         <li><a href="payment.html" id="buyNowLink">Buy Now</a></li>
+                        <li><a href="minigame.html"><i class="fas fa-gamepad"></i> Minigame</a></li>
                         <li><a href="order-view.html">My Orders</a></li>
                         <li><a href="https://www.instagram.com/__luvynlight/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
                         <li>
@@ -50,7 +48,6 @@
                     <p>Experience the future of home automation with our premium smart bulbs. Control colors, brightness, and schedules from anywhere.</p>
                     <div class="cta-buttons">
                         <a href="payment.html" class="btn btn-primary" id="getYoursNowBtn">Get Yours Now <i class="fas fa-bolt"></i></a>
-                        <a href="#features" class="btn btn-secondary">Explore Features <i class="fas fa-chevron-down"></i></a>
                     </div>
                 </div>
                 <div class="hero-image">
@@ -81,7 +78,7 @@
             <div class="product-content">
                 <div class="product-video">
                     <video width="100%" height="auto" controls style="border-radius: 20px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);">
-                        <source src="assets/iklan.mp4" type="video/mp4">
+                        <source src="assets/lupinads.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
@@ -198,7 +195,7 @@
     </section>
 
     <script>
-        // Quantity control functionality
+        // Quantity control functionality (only runs on pages that have these elements)
         document.addEventListener('DOMContentLoaded', function() {
             const decreaseBtn = document.getElementById('decreaseQty');
             const increaseBtn = document.getElementById('increaseQty');
@@ -208,51 +205,65 @@
             const shippingDisplay = document.getElementById('shipping');
             const totalDisplay = document.getElementById('total');
 
-            let quantity = 1;
-            const pricePerItem = 55000;
-            const taxRate = 1000; // Fixed tax
-            const shippingCost = 8000; // Fixed shipping
+            // Only run if quantity elements exist (payment.html/cart.html)
+            if (decreaseBtn && increaseBtn && quantityDisplay) {
+                let quantity = 1;
+                const pricePerItem = 55000;
+                const taxRate = 1000; // Fixed tax
+                const shippingCost = 8000; // Fixed shipping
 
-            // Update display
-            function updateDisplay() {
-                const subtotal = quantity * pricePerItem;
-                const total = subtotal + taxRate + shippingCost;
+                // Update display
+                function updateDisplay() {
+                    const subtotal = quantity * pricePerItem;
+                    const total = subtotal + taxRate + shippingCost;
 
-                quantityDisplay.textContent = quantity;
-                subtotalDisplay.textContent = `Rp ${subtotal.toLocaleString('id-ID')}`;
-                taxDisplay.textContent = `Rp ${taxRate.toLocaleString('id-ID')}`;
-                shippingDisplay.textContent = `Rp ${shippingCost.toLocaleString('id-ID')}`;
-                totalDisplay.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+                    quantityDisplay.textContent = quantity;
+                    subtotalDisplay.textContent = `Rp ${subtotal.toLocaleString('id-ID')}`;
+                    taxDisplay.textContent = `Rp ${taxRate.toLocaleString('id-ID')}`;
+                    shippingDisplay.textContent = `Rp ${shippingCost.toLocaleString('id-ID')}`;
+                    totalDisplay.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+                }
+
+                // Decrease quantity
+                decreaseBtn.addEventListener('click', function() {
+                    if (quantity > 1) {
+                        quantity--;
+                        updateDisplay();
+                    }
+                });
+
+                // Increase quantity
+                increaseBtn.addEventListener('click', function() {
+                    quantity++;
+                    updateDisplay();
+                });
+
+                // Store quantity in localStorage when clicking "Get Yours Now" button
+                const getNowBtn = document.getElementById('getNowBtn');
+                if (getNowBtn) {
+                    getNowBtn.addEventListener('click', function() {
+                        localStorage.setItem('cartQuantity', quantity);
+                        localStorage.setItem('cartTotal', quantity * pricePerItem + taxRate + shippingCost);
+                    });
+                }
             }
 
-            // Decrease quantity
-            decreaseBtn.addEventListener('click', function() {
-                if (quantity > 1) {
-                    quantity--;
-                    updateDisplay();
-                }
-            });
+            // Handle "Get Yours Now" buttons (available on all pages)
+            const getYoursNowBtn = document.getElementById('getYoursNowBtn');
+            if (getYoursNowBtn) {
+                getYoursNowBtn.addEventListener('click', function() {
+                    localStorage.setItem('cartQuantity', 1);
+                    localStorage.setItem('cartTotal', 55000 + 1000 + 8000);
+                });
+            }
 
-            // Increase quantity
-            increaseBtn.addEventListener('click', function() {
-                quantity++;
-                updateDisplay();
-            });
-
-            // Store quantity in localStorage when clicking "Get Yours Now" button
-            document.getElementById('getNowBtn').addEventListener('click', function() {
-                localStorage.setItem('cartQuantity', quantity);
-                localStorage.setItem('cartTotal', quantity * pricePerItem + taxRate + shippingCost);
-            });
-
-            // Also handle the other "Get Yours Now" button
-            document.getElementById('getYoursNowBtn').addEventListener('click', function() {
-                localStorage.setItem('cartQuantity', quantity);
-                localStorage.setItem('cartTotal', quantity * pricePerItem + taxRate + shippingCost);
-            });
-
-            // Initialize display
-            updateDisplay();
+            const getNowBtn = document.getElementById('getNowBtn');
+            if (getNowBtn) {
+                getNowBtn.addEventListener('click', function() {
+                    localStorage.setItem('cartQuantity', 1);
+                    localStorage.setItem('cartTotal', 55000 + 1000 + 8000);
+                });
+            }
         });
 
         // Check if user is logged in on page load
@@ -336,13 +347,13 @@
                 <h2>Login to Access Products</h2>
 
                 <div class="form-group">
-                    <label for="username">Username or Email</label>
-                    <input type="text" id="username" class="form-control" placeholder="Enter your username or email" required>
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
                 </div>
 
                 <button type="submit" class="login-btn">Login</button>

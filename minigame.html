@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minigame - Luvyn Smart Bulb</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  text-align:center;
+  font-family:Arial, sans-serif;
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  color:white;
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
+
+header {
+  background: rgba(0, 0, 0, 0.9);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+  align-items: center;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--primary-color);
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: white;
+  transition: 0.3s;
+}
+
+h1{
+  color: var(--primary-color);
+  margin: 30px 0 20px;
+  font-size: 2rem;
+}
+
+#info{
+  font-size: 20px;
+  margin: 20px 0;
+  color: var(--primary-color);
+}
+
+#info span{
+  font-weight: bold;
+  color: #fff;
+  margin: 0 10px;
+}
+
+#startBtn{
+  padding:15px 40px;
+  font-size:20px;
+  border:none;
+  border-radius:10px;
+  background: var(--primary-color);
+  color: var(--dark-color);
+  font-weight: 600;
+  cursor:pointer;
+  transition: all 0.3s ease;
+  margin: 20px 0;
+}
+
+#startBtn:hover{
+  background: #e6c200;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+}
+
+#gameArea{
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  border: 3px solid var(--primary-color);
+  border-radius: 15px;
+  margin: 20px auto;
+  background: rgba(255, 215, 0, 0.1);
+  overflow: hidden;
+}
+
+.gadget{
+  position: absolute;
+  font-size: 35px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-drag: none;
+  z-index: 10;
+}
+
+.gadget:active {
+  transform: scale(1.2);
+}
+
+#result{
+  color: #fff;
+  font-size: 1.5rem;
+  margin-top: 20px;
+  min-height: 50px;
+}
+
+.result-win {
+  color: #2ecc71;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.result-lose {
+  color: #e74c3c;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.code-display {
+  background: rgba(255, 215, 0, 0.2);
+  padding: 15px 30px;
+  border-radius: 10px;
+  display: inline-block;
+  margin-top: 15px;
+  border: 2px solid var(--primary-color);
+}
+
+.code-display code {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+.game-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.95);
+    flex-direction: column;
+    padding: 20px;
+    gap: 15px;
+  }
+  
+  .nav-links.active {
+    display: flex;
+  }
+  
+  .hamburger {
+    display: flex;
+  }
+  
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+  
+  #gameArea {
+    height: 300px;
+  }
+  
+  .gadget {
+    font-size: 30px;
+  }
+}
+</style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="assets/logobaru.png" alt="Luvyn Logo" style="height: 40px; width: auto;">
+                </a>
+                <div class="nav-menu" id="nav-menu">
+                    <ul class="nav-links">
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+                        <li><a href="order-view.html">My Orders</a></li>
+                        <li><a href="https://www.instagram.com/__luvynlight/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li>
+                            <div class="auth-buttons">
+                                <a href="login.html" id="loginBtn" class="btn btn-secondary" style="display: inline;">Login</a>
+                                <button id="logoutBtn" class="btn btn-secondary" style="display: none;">Logout</button>
+                                <span id="userDisplay" style="margin-left: 10px; color: var(--primary-color); display: none;"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+<div class="game-container">
+  <h1>🎮 Tangkap Lampu!</h1>
+  <div id="info">
+    Skor: <span id="score">0</span> | Gagal: <span id="miss">0</span>
+  </div>
+
+  <button id="startBtn" onclick="startGame()">START</button>
+
+  <div id="gameArea"></div>
+
+  <div id="result"></div>
+</div>
+
+<script>
+// Mobile menu toggle
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('nav-menu');
+
+if(hamburger && navMenu) {
+  hamburger.addEventListener('click', function() {
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+  });
+
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      navMenu.classList.remove('active');
+    });
+  });
+}
+
+// Check login state and update navbar
+document.addEventListener('DOMContentLoaded', function() {
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const userDisplay = document.getElementById('userDisplay');
+
+  if (isLoggedIn === 'true') {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser) {
+      loginBtn.style.display = 'none';
+      logoutBtn.style.display = 'inline-block';
+      userDisplay.textContent = currentUser.name || 'User';
+      userDisplay.style.display = 'inline';
+    }
+  } else {
+    loginBtn.style.display = 'inline-block';
+    logoutBtn.style.display = 'none';
+    userDisplay.style.display = 'none';
+  }
+
+  // Handle logout
+  logoutBtn?.addEventListener('click', function() {
+    if (confirm('Are you sure you want to logout?')) {
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('currentUser');
+      window.location.reload();
+    }
+  });
+});
+
+// Game variables
+let score = 0;
+let miss = 0;
+let speed = 2;
+let playing = false;
+let spawnTimer = null;
+let gameTimers = [];
+
+function startGame(){
+  // Reset variables
+  score = 0;
+  miss = 0;
+  speed = 2;
+  playing = true;
+  
+  // Clear game area
+  const gameArea = document.getElementById("gameArea");
+  gameArea.innerHTML = "";
+  
+  // Clear all timers
+  gameTimers.forEach(t => clearInterval(t));
+  gameTimers = [];
+  if(spawnTimer) clearInterval(spawnTimer);
+  
+  // Update display
+  document.getElementById("score").innerText = score;
+  document.getElementById("miss").innerText = miss;
+  document.getElementById("result").innerHTML = "";
+  document.getElementById("startBtn").innerText = "PLAYING...";
+  document.getElementById("startBtn").disabled = true;
+  
+  // Start spawning gadgets
+  spawnGadget();
+  spawnTimer = setInterval(spawnGadget, 800);
+}
+
+function spawnGadget(){
+  if(!playing) return;
+
+  const gameArea = document.getElementById("gameArea");
+  const gadget = document.createElement("div");
+  gadget.classList.add("gadget");
+
+  // Lamp emojis only
+  const icons = ["💡","🔦","🏮","✨"];
+  gadget.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+
+  // Random horizontal position within game area
+  const maxLeft = gameArea.clientWidth - 40;
+  const randomLeft = Math.floor(Math.random() * maxLeft);
+  gadget.style.left = randomLeft + "px";
+  gadget.style.top = "0px";
+
+  gameArea.appendChild(gadget);
+
+  let position = 0;
+  const gadgetInterval = setInterval(() => {
+    if(!playing) {
+      clearInterval(gadgetInterval);
+      return;
+    }
+    
+    position += speed;
+    gadget.style.top = position + "px";
+
+    // Check if gadget fell off bottom
+    if(position > gameArea.clientHeight - 40){
+      clearInterval(gadgetInterval);
+      const index = gameTimers.indexOf(gadgetInterval);
+      if(index > -1) gameTimers.splice(index, 1);
+      
+      if(gadget.parentNode) {
+        gadget.remove();
+      }
+      miss++;
+      document.getElementById("miss").innerText = miss;
+      checkGame();
+    }
+  }, 20);
+  
+  gameTimers.push(gadgetInterval);
+
+  // Click/touch to catch gadget
+  gadget.addEventListener("pointerdown", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    clearInterval(gadgetInterval);
+    const index = gameTimers.indexOf(gadgetInterval);
+    if(index > -1) gameTimers.splice(index, 1);
+
+    if(gadget.parentNode) {
+      gadget.remove();
+    }
+    score++;
+    document.getElementById("score").innerText = score;
+    
+    // Increase speed after each catch
+    speed += 1;
+    
+    checkGame();
+  });
+}
+
+function checkGame(){
+  if(score >= 10){
+    playing = false;
+    clearInterval(spawnTimer);
+    gameTimers.forEach(t => clearInterval(t));
+    gameTimers = [];
+
+    document.getElementById("result").innerHTML = 
+      '<span class="result-win">🎉 MENANG!</span>';
+    document.getElementById("startBtn").innerText = "MAIN LAGI";
+    document.getElementById("startBtn").disabled = false;
+  }
+
+  if(miss >= 3){
+    playing = false;
+    clearInterval(spawnTimer);
+    gameTimers.forEach(t => clearInterval(t));
+    gameTimers = [];
+
+    document.getElementById("result").innerHTML = 
+      '<span class="result-lose">😢 GAME OVER!</span><br><br>' +
+      '<button id="retryBtn" onclick="startGame()" style="padding:12px 30px;font-size:16px;border:none;border-radius:10px;background:var(--primary-color);color:var(--dark-color);font-weight:600;cursor:pointer;">COBA LAGI</button>';
+    document.getElementById("startBtn").innerText = "START";
+    document.getElementById("startBtn").disabled = false;
+  }
+}
+</script>
+
+</body>
+</html>

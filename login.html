@@ -203,11 +203,8 @@
                 </a>
                 <div class="nav-menu" id="nav-menu">
                     <ul class="nav-links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="index.html#features">Features</a></li>
-                        <li><a href="index.html#pricing">Pricing</a></li>
                         <li><a href="products.html">Products</a></li>
-                        <li><a href="index.html">Back to Shop</a></li>
+                        <li><a href="minigame.html"><i class="fas fa-gamepad"></i> Minigame</a></li>
                         <li><a href="order-view.html">My Orders</a></li>
                         <li><a href="https://www.instagram.com/__luvynlight/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
                     </ul>
@@ -230,8 +227,8 @@
 
             <form class="login-form" id="loginForm">
                 <div class="form-group">
-                    <label for="username">Username or Email</label>
-                    <input type="text" id="username" class="form-control" placeholder="Enter your username or email" required>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
                 </div>
 
                 <div class="form-group">
@@ -279,16 +276,16 @@
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const usernameOrEmail = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim().toLowerCase();
             const password = document.getElementById('password').value;
             const remember = document.getElementById('remember').checked;
 
             // Check for admin login first
-            if (usernameOrEmail === 'admin' && password === 'adminganteng') {
+            if (email === 'admin@luvyn.com' && password === 'admin123') {
                 // Admin login successful
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('currentUser', JSON.stringify({
-                    username: 'admin',
+                    email: 'admin@luvyn.com',
                     name: 'Administrator',
                     type: 'admin'
                 }));
@@ -307,9 +304,8 @@
             // Retrieve users from localStorage
             const users = JSON.parse(localStorage.getItem('users')) || [];
 
-            // Find user by username or email (case-insensitive comparison)
-            const user = users.find(u => u.username.toLowerCase() === usernameOrEmail.toLowerCase() ||
-                                          u.email.toLowerCase() === usernameOrEmail.toLowerCase());
+            // Find user by email (case-insensitive comparison)
+            const user = users.find(u => u.email.toLowerCase() === email);
 
             if (user) {
                 // User found, now check password
@@ -336,7 +332,7 @@
                 }
             } else {
                 // User not found
-                alert('User not found. Please check your username/email or register a new account.');
+                alert('User not found. Please check your email or register a new account.');
             }
         });
     </script>

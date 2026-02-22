@@ -228,8 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Sample user and admin credentials (in a real app, this would come from a server)
     const users = {
-        'user': { username: 'user', password: 'user123', name: 'John Doe', type: 'user' },
-        'admin': { username: 'admin', password: 'admin123', name: 'Admin User', type: 'admin' }
+        'user': { email: 'user@example.com', password: 'user123', name: 'John Doe', type: 'user' },
+        'admin': { email: 'admin@luvyn.com', password: 'admin123', name: 'Admin User', type: 'admin' }
     };
 
     // Open login modal
@@ -262,12 +262,12 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm?.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+        const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+        const password = document.getElementById('loginPassword').value;
         const userType = loginTypeInput.value;
 
-        // Check if credentials match
-        if (users[userType] && users[userType].username === username && users[userType].password === password) {
+        // Check for demo credentials first
+        if (users[userType] && users[userType].email === email && users[userType].password === password) {
             // Successful login
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('currentUser', JSON.stringify(users[userType]));
@@ -285,8 +285,37 @@ document.addEventListener('DOMContentLoaded', () => {
             loginForm.reset();
 
             alert(`Welcome, ${users[userType].name}! You have successfully logged in as ${users[userType].type}.`);
+            return;
+        }
+
+        // Check registered users from localStorage
+        const registeredUsers = JSON.parse(localStorage.getItem('users')) || [];
+        const user = registeredUsers.find(u => u.email.toLowerCase() === email);
+
+        if (user) {
+            if (user.password === password) {
+                // Successful login
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', JSON.stringify(user));
+
+                // Update UI
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'inline-block';
+                userDisplay.textContent = user.name;
+                userDisplay.style.display = 'inline';
+
+                // Close modal
+                loginModal.style.display = 'none';
+
+                // Reset form
+                loginForm.reset();
+
+                alert(`Welcome back, ${user.name}!`);
+            } else {
+                alert('Invalid password. Please try again.');
+            }
         } else {
-            alert('Invalid username or password. Please try again.');
+            alert('Email not found. Please check your email or register a new account.');
         }
     });
 
